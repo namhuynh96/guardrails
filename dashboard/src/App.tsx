@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Form from "./containers/Form/Form";
+import ResultList from "./containers/ResultList/ResultList";
 import classes from "./App.module.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 
       <div className={classes.container}>
         {containerShow === "form" && <Form />}
+        {containerShow === "list" && <ResultList />}
       </div>
     </div>
   );
