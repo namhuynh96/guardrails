@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import axios from "axios";
 
 import FindingFormContainer from "./FindingFormContainer";
 import { IFinding } from "../../types/securityResult";
@@ -11,12 +12,13 @@ const Form = () => {
   const [scanningAt, setScanningAt] = useState("");
   const [finishedAt, setFinishedAt] = useState("");
   const [findings, setFindings] = useState<IFinding[]>([]);
+  const [message, setMessage] = useState("");
 
   const handleUpdateFindings = useCallback((data: IFinding[]) => {
     setFindings(data);
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = {
       status,
       repositoryName,
@@ -26,16 +28,14 @@ const Form = () => {
       findings,
     };
 
-    fetch("http://localhost:4000/securityResults", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log("data returned: ", data))
-      .catch((error) => console.log("error returned: ", error));
+    try {
+      await axios.post("http://localhost:4000/securityResult", data);
+      setMessage("Added successfully");
+    } catch (error) {
+      setMessage("Error happened");
+    }
+
+    setTimeout(() => setMessage(""), 2000);
   };
 
   return (
@@ -95,6 +95,7 @@ const Form = () => {
       </div>
 
       <button onClick={handleSubmit}>Submit</button>
+      <div>{message}</div>
     </div>
   );
 };
