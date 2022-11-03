@@ -29,7 +29,7 @@ const Form = () => {
     };
 
     try {
-      await axios.post("http://localhost:4000/securityResult", data);
+      await axios.post("http://localhost:4000/securityResults", data);
       setMessage("Added successfully");
     } catch (error) {
       setMessage("Error happened");
