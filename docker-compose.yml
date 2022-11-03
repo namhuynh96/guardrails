@@ -1,0 +1,34 @@
+version: "1"
+services:
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile.dev
+    ports:
+      - 3000:3000
+    container_name: dashboard
+    networks:
+      - guardrails-project-net
+    volumes:
+      - ./dashboard/src:/usr/app/src
+      - ./dashboard/public:/usr/app/public
+    depends_on:
+      - api
+    stdin_open: true
+    tty: true
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    ports:
+      - 4000:4000
+    container_name: api
+    networks:
+      - guardrails-project-net
+    volumes:
+      - ./api/src:/usr/app/src
+
+networks:
+  guardrails-project-net:
+    driver: bridge
